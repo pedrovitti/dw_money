@@ -1,5 +1,13 @@
 require "dw_money/version"
 
 module DwMoney
-  # Your code goes here...
+  class Money
+
+    @@conversion_rates = {}
+
+    def self.conversion_rates(base_currency, rates)
+      @@conversion_rates[base_currency] = rates
+    end
+
+  end
 end

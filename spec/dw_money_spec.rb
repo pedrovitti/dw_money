@@ -1,11 +1,21 @@
 require "spec_helper"
 
-RSpec.describe DwMoney do
-  it "has a version number" do
-    expect(DwMoney::VERSION).not_to be nil
+describe DwMoney::Money do
+
+  describe ".conversion_rates" do
+
+    it "configures rates for base currency" do
+      expected_rates = {
+        "BRL" => { 'EUR' => 0.28, 'USD' => 0.31 },
+        'EUR' => { 'USD' => 1.12, 'BRL' => 3.51 }
+      }
+
+      DwMoney::Money.conversion_rates("BRL", expected_rates["BRL"])
+      DwMoney::Money.conversion_rates("EUR", expected_rates["EUR"])
+
+      expect(DwMoney::Money.class_variable_get :@@conversion_rates).to eq(expected_rates)
+    end
+
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
-  end
 end
