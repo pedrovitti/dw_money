@@ -26,4 +26,26 @@ describe DwMoney::Money do
     end
   end
 
+  describe "#convert_to" do
+    before do
+      DwMoney::Money.conversion_rates("EUR", { 'USD' => 1.12, 'BRL' => 3.51 })
+    end
+
+    context "when converting money" do
+      let(:fifty_euros) { DwMoney::Money.new(50.12, "EUR") }
+
+      context "to an existing currency" do
+        it "returns money with converted amount and currency" do
+          expect(fifty_euros.convert_to("USD")).to eq DwMoney::Money.new(56.13, "USD")
+        end
+      end
+
+      context "to a non-existing currency" do
+        it "raises and error" do
+          expect { fifty_euros.convert_to("XUN") }.to raise_error(DwMoney::ConversionRateNotFound, "XUN")
+        end
+      end
+    end
+  end
+
 end
