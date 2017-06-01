@@ -33,7 +33,7 @@ module DwMoney
     end
 
     def <=>(other)
-      other.amount.round(2) <=> amount.round(2)
+      amount.round(2) <=> other.convert_to(currency).amount.round(2)
     end
 
     def +(other)

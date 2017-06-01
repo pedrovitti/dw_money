@@ -13,7 +13,7 @@ describe DwMoney::Money do
       DwMoney::Money.conversion_rates("BRL", expected_rates["BRL"])
       DwMoney::Money.conversion_rates("EUR", expected_rates["EUR"])
 
-      expect(DwMoney::Money.class_variable_get :@@conversion_rates).to eq(expected_rates)
+      expect(DwMoney::Money.class_variable_get :@@conversion_rates).to include(expected_rates)
     end
 
   end
@@ -224,4 +224,66 @@ describe DwMoney::Money do
       end
     end
   end
+
+  describe "comparing money objects" do
+    DwMoney::Money.conversion_rates("EUR", { 'USD' => 1.12, 'BRL' => 3.51 })
+    DwMoney::Money.conversion_rates("USD", { 'EUR' => 0.89, 'BRL' => 3.41 })
+
+    let(:money) { DwMoney::Money.new(11.42, "USD") }
+
+    context "when same currency" do
+
+      context "with same amount" do
+        let(:other) { DwMoney::Money.new(11.42, "USD") }
+
+        it { expect(money).to eq other }
+      end
+
+      context "with different amount" do
+        let(:other) { DwMoney::Money.new(1.20, "USD") }
+
+        it { expect(money).to_not eq other }
+      end
+
+      context "with higher amount" do
+        let(:other) { DwMoney::Money.new(100.20, "USD") }
+
+        it { expect(money).to be < other }
+      end
+
+      context "with lower amount" do
+        let(:other) { DwMoney::Money.new(1.20, "USD") }
+
+        it { expect(money).to be > other }
+      end
+    end
+
+    context "with different currency" do
+
+      context "with same converted amount" do
+        let(:other) { DwMoney::Money.new(10.20, "EUR") }
+
+        it { expect(money).to eq other }
+      end
+
+      context "with different converted amount" do
+        let(:other) { DwMoney::Money.new(60.20, "EUR") }
+
+        it { expect(money).to_not eq other }
+      end
+
+      context "with higher converted amount" do
+        let(:other) { DwMoney::Money.new(123.20, "USD") }
+
+        it { expect(money).to_not eq other }
+      end
+
+      context "with lower converted amount" do
+        let(:other) { DwMoney::Money.new(10.20, "USD") }
+
+        it { expect(money).to_not eq other }
+      end
+    end
+  end
+
 end
