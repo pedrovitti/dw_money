@@ -44,6 +44,14 @@ module DwMoney
       Money.new(amount + other, currency)
     end
 
+     def -(other)
+      raise TypeError unless (other.is_a?(Money) || other.is_a?(Numeric))
+
+      other = other.convert_to(currency).amount if other.is_a?(Money)
+
+      Money.new(amount - other, currency)
+    end
+
     private
 
     def rates
