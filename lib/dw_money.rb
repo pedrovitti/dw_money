@@ -1,2 +1,2 @@
-require "dw_money/version"
-require "dw_money/money"
+require 'dw_money/version'
+require 'dw_money/money'

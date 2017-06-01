@@ -1,4 +1,4 @@
-require "dw_money/money/arithmetic"
+require 'dw_money/money/arithmetic'
 
 module DwMoney
   class ConversionRateNotFound < StandardError; end
@@ -21,7 +21,7 @@ module DwMoney
     end
 
     def inspect
-      "#{'%.2f' % amount} #{currency}"
+      "#{format('%.2f', amount)} #{currency}"
     end
 
     def convert_to(new_currency)
