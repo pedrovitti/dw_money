@@ -18,4 +18,12 @@ describe DwMoney::Money do
 
   end
 
+  describe "#inspect" do
+    subject { DwMoney::Money.new(50.12, "EUR").inspect }
+
+    it "returns a readable version of amount and currency" do
+      expect(subject).to eq "50.12 EUR"
+    end
+  end
+
 end
