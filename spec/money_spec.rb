@@ -38,7 +38,7 @@ describe DwMoney::Money do
       end
 
       context 'to a non-existing currency' do
-        it 'raises and error' do
+        it 'raises an error' do
           expect { fifty_euros.convert_to('XUN') }.to raise_error(DwMoney::ConversionRateNotFound, 'XUN => EUR')
         end
       end
