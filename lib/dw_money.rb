@@ -24,7 +24,9 @@ module DwMoney
     end
 
     def convert_to(new_currency)
-      raise ConversionRateNotFound, new_currency unless rates[new_currency]
+      return self if new_currency == currency
+
+      raise ConversionRateNotFound, "#{new_currency} => #{currency}" unless rates && rates[new_currency]
 
       new_amount = amount * rates[new_currency]
       Money.new(new_amount, new_currency)
@@ -32,6 +34,14 @@ module DwMoney
 
     def <=>(other)
       other.amount.round(2) <=> amount.round(2)
+    end
+
+    def +(other)
+      raise TypeError unless (other.is_a?(Money) || other.is_a?(Numeric))
+
+      other = other.convert_to(currency).amount if other.is_a?(Money)
+
+      Money.new(amount + other, currency)
     end
 
     private
