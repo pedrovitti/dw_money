@@ -42,5 +42,7 @@ module DwMoney
     def self.conversion_rates_configuration
       @conversion_rates
     end
+
+    private_class_method :conversion_rates_configuration
   end
 end
