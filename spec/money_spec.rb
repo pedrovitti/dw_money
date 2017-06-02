@@ -11,7 +11,7 @@ describe DwMoney::Money do
       DwMoney::Money.conversion_rates('BRL', expected_rates['BRL'])
       DwMoney::Money.conversion_rates('EUR', expected_rates['EUR'])
 
-      expect(DwMoney::Money.class_variable_get(:@@conversion_rates)).to include(expected_rates)
+      expect(DwMoney::Money.instance_variable_get(:@conversion_rates)).to include(expected_rates)
     end
   end
 

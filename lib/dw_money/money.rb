@@ -9,10 +9,10 @@ module DwMoney
 
     attr_reader :amount, :currency
 
-    @@conversion_rates = {}
+    @conversion_rates = {}
 
     def self.conversion_rates(base_currency, rates)
-      @@conversion_rates[base_currency] = rates
+      @conversion_rates[base_currency] = rates
     end
 
     def initialize(amount, currency)
@@ -36,7 +36,11 @@ module DwMoney
     private
 
     def rates
-      @@conversion_rates[currency]
+      self.class.conversion_rates_configuration[currency]
+    end
+
+    def self.conversion_rates_configuration
+      @conversion_rates
     end
   end
 end
