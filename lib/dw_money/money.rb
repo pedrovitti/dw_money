@@ -33,16 +33,15 @@ module DwMoney
       Money.new(new_amount, new_currency)
     end
 
+    def self.conversion_rates_configuration
+      @conversion_rates
+    end
+
     private
 
     def rates
       self.class.conversion_rates_configuration[currency]
     end
 
-    def self.conversion_rates_configuration
-      @conversion_rates
-    end
-
-    private_class_method :conversion_rates_configuration
   end
 end
