@@ -15,6 +15,10 @@ module DwMoney
       @conversion_rates[base_currency] = rates
     end
 
+    def self.conversion_rates_configuration
+      @conversion_rates
+    end
+
     def initialize(amount, currency)
       @amount = amount
       @currency = currency
@@ -33,8 +37,8 @@ module DwMoney
       Money.new(new_amount, new_currency)
     end
 
-    def self.conversion_rates_configuration
-      @conversion_rates
+    def <=>(other)
+      amount.round(2) <=> other.convert_to(currency).amount.round(2)
     end
 
     private
